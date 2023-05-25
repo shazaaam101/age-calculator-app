@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import "./App.css";
+import InputPanel from "./components/InputPanel";
+import SubmitInput from "./components/SubmitInput";
+import ShowPanel from "./components/ShowPanel";
+import { useReducer } from "react";
+import { INIT_STATE, formReducer } from "./formReducer";
+import { FormContext } from "./FormContext";
+import { intervalToDuration } from "date-fns";
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [state, dispatch] = useReducer(formReducer, INIT_STATE);
+  const calAge = (birthYear, birthMonth, birthDay) => {
+    const { years, months, days } = intervalToDuration({
+      start: new Date(),
+      end: new Date(birthYear, birthMonth - 1, birthDay),
+    });
+    console.log("y", years);
+    return { years, months, days };
+  };
+  console.log("state", state);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <div className="container">
+        <FormContext.Provider value={{ state, dispatch, calAge }}>
+          <InputPanel />
+          <SubmitInput />
+          <ShowPanel />
+        </FormContext.Provider>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="footer">
+        Coded by:
+        <span>&nbsp;Mod-x</span>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
