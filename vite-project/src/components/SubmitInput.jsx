@@ -14,18 +14,7 @@ const SubmitInput = () => {
     if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
       dayInMonth[1] = 29;
     }
-    if (!state.inputValue.day) {
-      isError = true;
-      error = { ...error, day: "This field is required" };
-    }
-    if (!state.inputValue.month) {
-      isError = true;
-      error = { ...error, month: "This field is required" };
-    }
-    if (!state.inputValue.year) {
-      isError = true;
-      error = { ...error, year: "This field is required" };
-    }
+
     //year
     if (currentYear - state.inputValue.year < 0) {
       isError = true;
@@ -64,6 +53,18 @@ const SubmitInput = () => {
     if (dayInMonth[state.inputValue.month - 1] < state.inputValue.day) {
       isError = true;
       error = { ...error, day: "Must be a valid date" };
+    }
+    if (!state.inputValue.day) {
+      isError = true;
+      error = { ...error, day: "This field is required" };
+    }
+    if (!state.inputValue.month) {
+      isError = true;
+      error = { ...error, month: "This field is required" };
+    }
+    if (!state.inputValue.year) {
+      isError = true;
+      error = { ...error, year: "This field is required" };
     }
     dispatch({
       type: "ERROR",
